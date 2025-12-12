@@ -27,9 +27,6 @@ class Author(models.Model):
         return f'{self.last_name} {self.first_name}'
     
 class Book(models.Model):
-    """
-    Модель для представления книги в электронной библиотеке.
-    """
     # 1. Название книги (строка, максимум 100 символов)
     title = models.CharField(max_length=100)
     
@@ -64,6 +61,7 @@ class Book(models.Model):
         choices=CATEGORY_CHOICES,
         default='fiction'
     )
+    
     
     # 6. Издательство (строка, максимум 100 символов)
     publisher = models.CharField(max_length=100)

@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from .models import Author, Book
 from .serializers import AuthorSerializer
-from rest_framework import viewsets, filters
+from rest_framework import viewsets, filters, permissions
 from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import BookSerializer
 from .filters import BookFilter
@@ -12,6 +12,13 @@ def home_view(request):
 class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
+
+    def get_permissions(self):
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            # Только админы могут создавать/изменять/удалять
+            return [permissions.IsAdminUser()]
+        # Все могут читать
+        return [permissions.AllowAny()]
 
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
@@ -38,3 +45,10 @@ class BookViewSet(viewsets.ModelViewSet):
         # Оптимизация: загружаем автора одним запросом (avoid N+1 problem)
         queryset = queryset.select_related('author')
         return queryset
+
+    def get_permissions(self):
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            # Только админы могут создавать/изменять/удалять
+            return [permissions.IsAdminUser()]
+        # Все могут читать
+        return [permissions.AllowAny()]
