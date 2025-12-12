@@ -52,12 +52,18 @@ class Book(models.Model):
     genre = models.CharField(max_length=100)
     
     # 5. Категория книги
-    category = [
+    CATEGORY_CHOICES = [
         ('fiction', 'Художественная литература'),
         ('textbook', 'Учебник'),
         ('science', 'Научная литература'),
         ('other', 'Другое'),
     ]
+    
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES,
+        default='fiction'
+    )
     
     # 6. Издательство (строка, максимум 100 символов)
     publisher = models.CharField(max_length=100)
