@@ -6,9 +6,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .serializers import BookSerializer
 from .filters import BookFilter
 
-def home_view(request):
-    return HttpResponse("Добро пожаловать на главную страницу!")
-
 class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
