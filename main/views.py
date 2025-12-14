@@ -10,6 +10,9 @@ class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
 
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['first_name', 'last_name', 'biography']
+
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update', 'destroy']:
             # Только админы могут создавать/изменять/удалять
@@ -28,7 +31,7 @@ class BookViewSet(viewsets.ModelViewSet):
     filterset_class = BookFilter
     
     # Для SearchFilter 
-    search_fields = ['title', 'genre', 'author__last_name', 'author__first_name']
+    search_fields = ['title', 'genre', 'author__last_name', 'author__first_name',]
     
     # Поля для сортировки
     ordering_fields = ['title', 'publication_year']
